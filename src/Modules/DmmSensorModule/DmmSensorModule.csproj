@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DmmSensorModule</RootNamespace>
+    <!-- 確保為類別庫 -->
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mvcon.Contracts\Mvcon.Contracts.csproj" />
+  </ItemGroup>
+
+  <!-- 建置完成後，自動將 DLL 改名為 .csvi 複製到主程式的 Plugins 資料夾 -->
+  <Target Name="ExportToCsvi" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" 
+          DestinationFiles="..\..\Mvcon.Host\bin\$(Configuration)\net8.0\Plugins\$(TargetName).csvi" />
+    <Message Importance="High" Text="[MVCON Build] 成功將 $(TargetName).dll 匯出為 $(TargetName).csvi 外掛模組！" />
+  </Target>
+</Project>

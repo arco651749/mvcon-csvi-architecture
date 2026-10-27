@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DmmSensorModule.Views.DmmParamWizardWindow"
+        Title="[UI 1] DMM 參數設定精靈 - 編輯 ::參數" 
+        Width="380" Height="300"
+        WindowStartupLocation="CenterOwner" CanResize="False">
+    <Border Background="#2D2D30" Padding="20">
+        <StackPanel Spacing="12">
+            <TextBlock Text="指令參數導引編輯器" FontSize="16" FontWeight="Bold" Foreground="#4EC9B0"/>
+            <TextBlock Text="設定完成後將自動轉換為 ::參數 填入腳本" Foreground="Gray" FontSize="12"/>
+
+            <Separator Background="#444"/>
+
+            <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto" Margin="0,5">
+                <!-- Channel -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="量測通道 (Channel):" VerticalAlignment="Center" Foreground="White"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="TxtChannel" Text="{Binding Channel}" Margin="0,4"/>
+
+                <!-- Scale Factor -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="放大倍率 (Scale):" VerticalAlignment="Center" Foreground="White"/>
+                <NumericUpDown Grid.Row="1" Grid.Column="1" Name="NumScale" Value="{Binding ScaleFactor}" 
+                               Minimum="0.1" Maximum="10.0" Increment="0.1" Margin="0,4"/>
+
+                <!-- High Limit -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="警報上限 (Limit):" VerticalAlignment="Center" Foreground="White"/>
+                <NumericUpDown Grid.Row="2" Grid.Column="1" Name="NumLimit" Value="{Binding HighLimit}" 
+                               Minimum="0.5" Maximum="50.0" Increment="0.5" Margin="0,4"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,15,0,0">
+                <Button Content="取消" Click="OnCancelClick" Width="80" HorizontalContentAlignment="Center"/>
+                <Button Content="確定 (套用)" Click="OnOkClick" Width="95" Background="#0E639C" Foreground="White" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
