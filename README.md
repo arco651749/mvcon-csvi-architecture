@@ -41,7 +41,10 @@ It brings the visual and operational power of **NI LabVIEW’s SubVI / Express V
 
 ---
 
-### 🏗️ The Three Pillars Pattern
+### 🏗️ The Four Facets Pattern (四位一體架構)
+
+- **Zero USERPARAMETEREDITOR Folder**: Completely eliminated!
+- **Directory-Driven Discovery**: File count in MODULES/<Module>/ directly defines supported commands and drivers.
 
 ```text
 ┌────────────────────────────────────────────────────────┐
