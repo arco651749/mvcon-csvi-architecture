@@ -128,3 +128,21 @@ public interface IParameterGuidance
 - 支援 SubPanel 一鍵熱插拔切換（IO CSVI 面板 ➔ Driver CSVI 面板 ➔ 預設面板）。
 - 雙擊參數欄即刻彈出 `IO@SetPort_Parameter.vi`，即時反選並產生參數。
 - 86/86 單元測試全數通過，100% 綠燈。
+
+---
+
+## 🛠️ 6. CSVI 3.0 可攜式自包含格式與獨立 `CSVI Studio` 工具鏈
+
+為達成真正的 **Portable CSVI（單一檔案隨插即改）** 並徹底消滅動態外掛的函式庫版本衝突（DLL Hell），CSVI 3.0 定義了內嵌原始碼容器與獨立的 **`CSVI_Studio.exe`** 工作站：
+
+1. **PE 原生內嵌原始碼 (`ManifestResource`)**：
+   - 維持 `.csvi` 為純粹的 `.NET PE` 二進位檔（主程式載入 0 解壓開銷），內部透過 `ManifestResource` 封裝 `CSVI.Manifest.json`、`CSVI.RuntimeXaml.*` 與 `CSVI.Source.Bundle`（包含 `.cs` 與 `.axaml`）。
+2. **使用者可選的三段式封裝模式**：
+   - 🟢 **`PortableOpen`（開放攜帶模式）**：內嵌明文 `.cs` + `.axaml`，單一檔案拷至任何電腦皆可用 `CSVI Studio` 開啟修改並現場重編。
+   - 🟡 **`PasswordLocked`（密碼鎖定模式）**：以 AES-256-GCM 加密內嵌原始碼，主程式正常高速執行，但於 `CSVI Studio` 檢視/修改源碼需輸入密碼（對標 LabVIEW Block Diagram Password）。
+   - 🔴 **`StrippedRelease`（純執行剝離模式）**：徹底剝離 `.cs` 原始碼，保護核心演算法 IP（對標 LabVIEW Remove Block Diagram）。
+3. **獨立工具鏈工作站 (`CSVI_Studio.exe`)**：
+   - 獨立於產線主程式 `MVCON.App.exe` 之外的專用 IDE 與四位一體沙盒測試器。
+   - **完整封裝 Toolchain（Roslyn C# 編譯器 + `AvaloniaRuntimeXamlLoader` + 鎖定版 SDK 參考庫）**：強制所有 `.csvi` 對齊 `CSVI Studio` 之函式庫與主程式 Runtime ABI。
+
+> 📄 完整規格書請參閱：[`CSVI_STUDIO_AND_PORTABLE_SPEC.md`](./CSVI_STUDIO_AND_PORTABLE_SPEC.md)
